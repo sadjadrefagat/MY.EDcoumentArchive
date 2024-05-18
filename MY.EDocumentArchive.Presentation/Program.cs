@@ -16,6 +16,9 @@ namespace MY.EDocumentArchive.Presentation
             Application.Run(new Form1());
 
 
+            var p = new Model.Person();
+            p.
+
 
             //-------------------salanm alaikom ahval shoma
         }
