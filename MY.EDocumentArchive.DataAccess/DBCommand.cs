@@ -5,20 +5,30 @@ using System.Linq;
 
 namespace MY.EDocumentArchive.DataAccess
 {
-    static public class DBCommand
+    sealed public class DBCommand
     {
-        static public List<T> GetList<T>() where T : class
-        {
-            using (var connection = new SqlConnection(""))
-            {
-                var cd = new CommandDefinition();
-                cd.
-                connection.Open();
-                connection.Query<T>(cd).ToList();
-                connection.Close();
-            }
+        private Utility.ApplicationConfig applicationConfig;
+        private SqlTransaction transaction = null;
 
-            return null;
+        public DBCommand(Utility.ApplicationConfig config, SqlTransaction transaction = null)
+        {
+            applicationConfig = config;
+            this.transaction = transaction;
+        }
+
+        public List<T> GetList<T>(CommandDefinition command) where T : class
+        {
+            var list = new List<T>();
+            SqlConnection connection = new SqlConnection(applicationConfig.DatabaseConnection.ToString());
+            if (transaction != null)
+                connection = transaction.Connection;
+            else
+                connection.Open();
+            //command.Transaction = transaction;
+            list = connection.Query<T>(command).ToList();
+            if (transaction == null)
+                connection.Close();
+            return list;
         }
     }
 }

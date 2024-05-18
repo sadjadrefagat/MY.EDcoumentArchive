@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY.EDocumentArchive.Utility
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY.EDocumentArchive.Model", "MY.EDocumentArchive.Model\MY.EDocumentArchive.Model.csproj", "{6767B5CD-6A81-4723-93FE-C655283BB118}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MY.EDocumentArchive.DataToObject", "MY.EDocumentArchive.DataToObject\MY.EDocumentArchive.DataToObject.csproj", "{3328EAF8-74AD-4B2F-88AF-E57704336CDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6767B5CD-6A81-4723-93FE-C655283BB118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6767B5CD-6A81-4723-93FE-C655283BB118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6767B5CD-6A81-4723-93FE-C655283BB118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3328EAF8-74AD-4B2F-88AF-E57704336CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3328EAF8-74AD-4B2F-88AF-E57704336CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3328EAF8-74AD-4B2F-88AF-E57704336CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3328EAF8-74AD-4B2F-88AF-E57704336CDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
