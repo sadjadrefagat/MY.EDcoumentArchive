@@ -14,6 +14,10 @@ namespace MY.EDocumentArchive.Presentation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+
+
+
+            //-------------------
         }
     }
 }
