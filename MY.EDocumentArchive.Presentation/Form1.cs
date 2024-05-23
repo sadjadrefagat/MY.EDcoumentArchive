@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MY.EDocumentArchive.Presentation
 {
-    public partial class Form1 : Form
+    public partial class frmPerson : Form
     {
-        public Form1()
+        public frmPerson()
         {
             InitializeComponent();
         }
