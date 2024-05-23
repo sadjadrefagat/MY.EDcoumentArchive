@@ -16,6 +16,9 @@ namespace MY.EDocumentArchive.Presentation
             Application.Run(new frmPerson());
 
 
+            var p = new Model.Person();
+            p.
+
 
         }
     }
