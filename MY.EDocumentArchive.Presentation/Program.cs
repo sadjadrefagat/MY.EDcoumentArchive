@@ -13,9 +13,9 @@ namespace MY.EDocumentArchive.Presentation
         {
             var fs = new FormStructure
             {
-                Type = 5,
-                Title = "تست",
-                Description = "13242452345342"
+                Type = 10,
+                Title = "یبلیبلی",
+                Description = "222222222"
             };
             ServiceFactory<FormStructure>.Save(ref fs);
 
@@ -23,9 +23,7 @@ namespace MY.EDocumentArchive.Presentation
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PersonEditForm(1));
-
-
+            Application.Run(new PersonEditForm());
         }
     }
 }

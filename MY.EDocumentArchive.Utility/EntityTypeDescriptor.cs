@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
 
 namespace MY
 {
@@ -37,7 +39,15 @@ namespace MY
 
         public object GetValue(T entity, string proprty)
         {
-            return entityType.GetProperty(proprty).GetValue(entity) ?? DBNull.Value;
+            var prop = entityType.GetProperty(proprty, BindingFlags.DeclaredOnly |
+                BindingFlags.Public |
+                BindingFlags.Instance);
+            if (prop == null)
+                prop = entityType.GetProperty(proprty);
+            var val = prop.GetValue(entity) ?? DBNull.Value;
+            if (val is EnumItem)
+                return (val as EnumItem).Value;
+            return val;
         }
 
         public void SetValue(T entity, string proprty, object value)
@@ -46,8 +56,9 @@ namespace MY
                 entityType.GetProperty(proprty).SetValue(entity, value);
         }
 
-        public IEnumerable<string> GetInsertFields()
+        public List<string> GetInsertFields()
         {
+            var list = new List<string>();
             foreach (var property in entityType.GetProperties())
             {
                 var insert = true;
@@ -57,9 +68,10 @@ namespace MY
                         insert = false;
                         break;
                     }
-                if (insert)
-                    yield return property.Name;
+                if (insert && !list.Contains(property.Name))
+                    list.Add(property.Name);
             }
+            return list;
         }
 
         public IEnumerable<string> GetFields()

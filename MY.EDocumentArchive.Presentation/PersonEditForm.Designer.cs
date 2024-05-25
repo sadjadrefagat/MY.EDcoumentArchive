@@ -103,12 +103,9 @@
             this.cmbType.BackColor = System.Drawing.Color.White;
             this.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbType.FormattingEnabled = true;
-            this.cmbType.Items.AddRange(new object[] {
-            "شخص (حقیقی)",
-            "شرکت (حقوقی)"});
             this.cmbType.Location = new System.Drawing.Point(324, 41);
             this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(336, 31);
+            this.cmbType.Size = new System.Drawing.Size(336, 26);
             this.cmbType.TabIndex = 1;
             this.cmbType.SelectedIndexChanged += new System.EventHandler(this.cmbType_SelectedIndexChanged);
             // 
@@ -129,7 +126,7 @@
             this.txtNationalID.MaxLength = 50;
             this.txtNationalID.Name = "txtNationalID";
             this.txtNationalID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtNationalID.Size = new System.Drawing.Size(336, 30);
+            this.txtNationalID.Size = new System.Drawing.Size(336, 26);
             this.txtNationalID.TabIndex = 11;
             this.txtNationalID.CustomValidation += new MY.CustomValidationEventHandler(this.txtNationalID_CustomValidation);
             // 
@@ -141,7 +138,7 @@
             this.txtFullName.Name = "txtFullName";
             this.txtFullName.ReadOnly = true;
             this.txtFullName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtFullName.Size = new System.Drawing.Size(336, 30);
+            this.txtFullName.Size = new System.Drawing.Size(336, 26);
             this.txtFullName.TabIndex = 9;
             // 
             // txtName
@@ -151,7 +148,7 @@
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtName.Size = new System.Drawing.Size(336, 30);
+            this.txtName.Size = new System.Drawing.Size(336, 26);
             this.txtName.TabIndex = 7;
             this.txtName.TextChanged += new System.EventHandler(this.CreateFullName);
             // 
@@ -162,7 +159,7 @@
             this.txtLastName.MaxLength = 50;
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtLastName.Size = new System.Drawing.Size(336, 30);
+            this.txtLastName.Size = new System.Drawing.Size(336, 26);
             this.txtLastName.TabIndex = 5;
             this.txtLastName.TextChanged += new System.EventHandler(this.CreateFullName);
             // 
@@ -173,7 +170,7 @@
             this.txtFirstName.MaxLength = 50;
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtFirstName.Size = new System.Drawing.Size(336, 30);
+            this.txtFirstName.Size = new System.Drawing.Size(336, 26);
             this.txtFirstName.TabIndex = 3;
             this.txtFirstName.CustomValidation += new MY.CustomValidationEventHandler(this.txtFirstName_CustomValidation);
             this.txtFirstName.TextChanged += new System.EventHandler(this.CreateFullName);
@@ -183,7 +180,7 @@
             this.mTextBox1.Location = new System.Drawing.Point(0, 0);
             this.mTextBox1.Name = "mTextBox1";
             this.mTextBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.mTextBox1.Size = new System.Drawing.Size(100, 22);
+            this.mTextBox1.Size = new System.Drawing.Size(100, 20);
             this.mTextBox1.TabIndex = 0;
             // 
             // PersonEditForm

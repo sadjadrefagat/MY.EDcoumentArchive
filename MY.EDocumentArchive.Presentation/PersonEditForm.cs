@@ -1,4 +1,5 @@
-﻿using MY.EDocumentArchive.Model;
+﻿using MY.EDocumentArchive.BusinessLogic;
+using MY.EDocumentArchive.BusinessLogic.Model;
 using System;
 using System.Windows.Forms;
 
@@ -12,12 +13,14 @@ namespace MY.EDocumentArchive.Presentation
         {
             InitializeComponent();
             this.personId = personId;
-            cmbType.SelectedIndex = 0;
+
+            cmbType.FillByEnum<PersonType>();
+            cmbType.SelectedItem = PersonType.متفرقه;
 
             if (personId.HasValue)
             {
-                var person = ServiceFactory<Person>.FetchByPrimaryKey(personId.Value);
-                cmbType.SelectedIndex = person.Type;
+                var person = ServiceFactory<PersonModel>.FetchByPrimaryKey(personId.Value);
+                cmbType.SelectedValue = person.Type.Value;
                 txtFirstName.Text = person.FirstName;
                 txtLastName.Text = person.LastName;
                 txtName.Text = person.Name;
@@ -27,12 +30,12 @@ namespace MY.EDocumentArchive.Presentation
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            var person = new Person();
+            var person = new PersonModel();
             if (personId.HasValue)
                 person.PersonID = personId.Value;
 
-            person.Type = cmbType.SelectedIndex;
-            if (cmbType.SelectedIndex == 0)
+            person.Type = (PersonType)cmbType.SelectedItem;
+            if (cmbType.SelectedItem == PersonType.شخص)
             {
                 person.FirstName = txtFirstName.Text;
                 person.LastName = txtLastName.Text;
@@ -41,13 +44,13 @@ namespace MY.EDocumentArchive.Presentation
                 person.Name = txtName.Text;
             person.NationalID = txtNationalID.Text;
 
-            if (FormValidator.IsValid(this) && ServiceFactory<Person>.Save(ref person))
+            if (FormValidator.IsValid(this) && ServiceFactory<PersonModel>.Save(ref person))
                 DialogResult = DialogResult.OK;
         }
 
         private void cmbType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbType.SelectedIndex == 0)
+            if ((cmbType.SelectedItem as EnumItem).Value == PersonType.شخص.Value)
                 txtName.Clear();
             else
             {
@@ -64,7 +67,7 @@ namespace MY.EDocumentArchive.Presentation
 
         private string txtFirstName_CustomValidation()
         {
-            if (cmbType.SelectedIndex == 0)
+            if ((cmbType.SelectedItem as EnumItem).Value == PersonType.شخص.Value)
             {
                 if (string.IsNullOrEmpty(txtFirstName.Text))
                     return FormValidator.Messages.فیلد_اجباری_وارد_نشده_است;
@@ -77,7 +80,7 @@ namespace MY.EDocumentArchive.Presentation
             foreach (var ch in txtNationalID.Text)
                 if (!char.IsNumber(ch))
                     return "کد ملی نامعتبر است";
-            if (cmbType.SelectedIndex == 0)
+            if ((cmbType.SelectedItem as EnumItem).Value == PersonType.شخص.Value)
             {
                 if (txtNationalID.Text.Length != 10)
                     return "طول کد ملی نامعتبر است";
@@ -89,7 +92,7 @@ namespace MY.EDocumentArchive.Presentation
 
         private void CreateFullName(object sender, EventArgs e)
         {
-            if (cmbType.SelectedIndex == 0)
+            if ((cmbType.SelectedItem as EnumItem).Value == PersonType.شخص.Value)
                 txtFullName.Text = $"{txtFirstName.Text} {txtLastName.Text}";
             else
                 txtFullName.Text = txtName.Text;

@@ -53,6 +53,8 @@
     </Compile>
     <Compile Include="CustomValidationEventHandler.cs" />
     <Compile Include="EntityTypeDescriptor.cs" />
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="EnumItem.cs" />
     <Compile Include="FormValidator.cs" />
     <Compile Include="IValidationControl.cs" />
     <Compile Include="MapToDatabaseTableAttribute.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerAuthenticate.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="ServiceFactoryConfig.cs" />
     <Compile Include="SqlServerDatabaseConnection.cs" />
     <Compile Include="TableMappingInfo.cs" />
   </ItemGroup>
