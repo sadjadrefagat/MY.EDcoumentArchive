@@ -1,4 +1,4 @@
-﻿namespace MY.EDocumentArchive.Utility
+﻿namespace MY
 {
     sealed public class ApplicationConfig
     {

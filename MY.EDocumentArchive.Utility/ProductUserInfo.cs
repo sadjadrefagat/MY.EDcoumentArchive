@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MY.EDocumentArchive.Utility
+namespace MY
 {
     sealed public class ProductUserInfo
     {

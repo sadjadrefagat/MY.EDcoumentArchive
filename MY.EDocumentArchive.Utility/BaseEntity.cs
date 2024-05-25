@@ -1,7 +1,15 @@
-﻿namespace MY.EDocumentArchive.Utility
+﻿namespace MY
 {
-    public class BaseEntity
+    abstract public class BaseEntity
     {
-        public long ID { get; set; }
+        protected BaseEntity(string schemaName, string tableName)
+        {
+            __MappingInfo = new TableMappingInfo(schemaName, tableName);
+        }
+        [NoInsert]
+        [NoSelect]
+        public TableMappingInfo __MappingInfo { get; }
+
+
     }
 }

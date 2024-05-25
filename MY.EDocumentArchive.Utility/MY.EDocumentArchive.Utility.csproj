@@ -7,7 +7,7 @@
     <ProjectGuid>{E112F006-882F-4B95-AB40-3E654C90669F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MY.EDocumentArchive.Utility</RootNamespace>
+    <RootNamespace>MY</RootNamespace>
     <AssemblyName>MY.EDocumentArchive.Utility</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,11 +45,31 @@
   <ItemGroup>
     <Compile Include="ApplicationConfig.cs" />
     <Compile Include="BaseEntity.cs" />
-    <Compile Include="ILogEntity.cs" />
+    <Compile Include="ControlLibrary\MTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControlLibrary\MTextBox.Designer.cs">
+      <DependentUpon>MTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomValidationEventHandler.cs" />
+    <Compile Include="EntityTypeDescriptor.cs" />
+    <Compile Include="FormValidator.cs" />
+    <Compile Include="IValidationControl.cs" />
+    <Compile Include="MapToDatabaseTableAttribute.cs" />
+    <Compile Include="NoInsertAttribute.cs" />
+    <Compile Include="NoSelectAttribute.cs" />
+    <Compile Include="PrimaryKeyAttribute.cs" />
     <Compile Include="ProductUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerAuthenticate.cs" />
+    <Compile Include="ServiceFactory.cs" />
     <Compile Include="SqlServerDatabaseConnection.cs" />
+    <Compile Include="TableMappingInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ControlLibrary\MTextBox.resx">
+      <DependentUpon>MTextBox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

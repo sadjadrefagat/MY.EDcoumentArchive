@@ -7,10 +7,10 @@ namespace MY.EDocumentArchive.DataAccess
 {
     sealed public class DBCommand
     {
-        private Utility.ApplicationConfig applicationConfig;
+        private ApplicationConfig applicationConfig;
         private SqlTransaction transaction = null;
 
-        public DBCommand(Utility.ApplicationConfig config, SqlTransaction transaction = null)
+        public DBCommand(ApplicationConfig config, SqlTransaction transaction = null)
         {
             applicationConfig = config;
             this.transaction = transaction;
