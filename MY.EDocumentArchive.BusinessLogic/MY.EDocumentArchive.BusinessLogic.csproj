@@ -44,10 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MY.EDocumentArchive.DataToObject\MY.EDocumentArchive.DataToObject.csproj">
-      <Project>{3328eaf8-74ad-4b2f-88af-e57704336cdc}</Project>
-      <Name>MY.EDocumentArchive.DataToObject</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MY.EDocumentArchive.Model\MY.EDocumentArchive.Model.csproj">
       <Project>{6767b5cd-6a81-4723-93fe-c655283bb118}</Project>
       <Name>MY.EDocumentArchive.Model</Name>

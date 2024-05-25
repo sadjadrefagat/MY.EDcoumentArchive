@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace MY.EDocumentArchive.DataAccess
+namespace MY
 {
-    sealed public class DBCommand
+    sealed public class DB
     {
         private ApplicationConfig applicationConfig;
         private SqlTransaction transaction = null;
 
-        public DBCommand(ApplicationConfig config, SqlTransaction transaction = null)
+        public DB(ApplicationConfig config, SqlTransaction transaction = null)
         {
             applicationConfig = config;
             this.transaction = transaction;
         }
 
-        public List<T> GetList<T>(CommandDefinition command) where T : class
+        public List<T> GetList<T>(SqlCommand command) where T : class
         {
             var list = new List<T>();
             SqlConnection connection = new SqlConnection(applicationConfig.DatabaseConnection.ToString());
@@ -25,7 +25,7 @@ namespace MY.EDocumentArchive.DataAccess
             else
                 connection.Open();
             //command.Transaction = transaction;
-            list = connection.Query<T>(command).ToList();
+            list = connection.Query<T>(new CommandDefinition()).ToList();
             if (transaction == null)
                 connection.Close();
             return list;

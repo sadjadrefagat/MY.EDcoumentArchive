@@ -1,5 +1,4 @@
-﻿using MY.EDocumentArchive.Model;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace MY.EDocumentArchive.Presentation
@@ -12,10 +11,12 @@ namespace MY.EDocumentArchive.Presentation
         [STAThread]
         static void Main()
         {
-            var fs = new FormStructure();
-            fs.Type = 5;
-            fs.Title = "تست";
-            fs.Description = "13242452345342";
+            var fs = new FormStructure
+            {
+                Type = 5,
+                Title = "تست",
+                Description = "13242452345342"
+            };
             ServiceFactory<FormStructure>.Save(ref fs);
 
 

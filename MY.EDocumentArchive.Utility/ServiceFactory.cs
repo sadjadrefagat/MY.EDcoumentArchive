@@ -87,6 +87,11 @@ namespace MY
 
             var query = $"INSERT INTO [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] ({fieldNames}) VALUES ({paramNames}); SELECT CAST(SCOPE_IDENTITY() AS BIGINT);";
 
+            //using (var conn = DB)
+            //{
+
+            //}
+
             using (var connection = new SqlConnection("server=192.168.1.54; initial catalog=MY.EDocumentArchive; user id=sa; password=Admin+1000"))
             {
                 connection.Open();
