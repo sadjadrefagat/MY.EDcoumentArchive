@@ -23,13 +23,28 @@ namespace MY
             }
         }
 
-        public string GetPrimaryKeyProperty()
+        public Dictionary<string, Type> GetPrimaryKeys()
         {
+            var primaryKeys = new Dictionary<string, Type>();
             foreach (var property in entityType.GetProperties())
                 foreach (var attrib in property.GetCustomAttributes(true))
                     if (attrib is PrimaryKeyAttribute)
-                        return property.Name;
-            return null;
+                        primaryKeys.Add(property.Name, property.PropertyType);
+            return primaryKeys;
+        }
+
+        public string GetIdentityProperty()
+        {
+            var identityProperty = "";
+            foreach (var property in entityType.GetProperties())
+                foreach (var attrib in property.GetCustomAttributes(true))
+                    if (attrib is AutoIdentityAttribute)
+                    {
+                        if (!string.IsNullOrEmpty(identityProperty))
+                            throw new Exception($"بیش از شناسه خودکار برای موجودیت {Name} تعریف شده است.");
+                        identityProperty = property.Name;
+                    }
+            return identityProperty;
         }
 
         public U GetValue<U>(T entity, string proprty)
@@ -53,7 +68,10 @@ namespace MY
         public void SetValue(T entity, string proprty, object value)
         {
             if (!Convert.IsDBNull(value))
-                entityType.GetProperty(proprty).SetValue(entity, value);
+            {
+                var prop = entityType.GetProperty(proprty, value.GetType());
+                prop.SetValue(entity, value);
+            }
         }
 
         public List<string> GetInsertFields()
@@ -74,8 +92,9 @@ namespace MY
             return list;
         }
 
-        public IEnumerable<string> GetFields()
+        public List<string> GetFields()
         {
+            var list = new List<string>();
             foreach (var property in entityType.GetProperties())
             {
                 var select = true;
@@ -85,9 +104,10 @@ namespace MY
                         select = false;
                         break;
                     }
-                if (select)
-                    yield return property.Name;
+                if (select && !list.Contains(property.Name))
+                    list.Add(property.Name);
             }
+            return list;
         }
     }
 }

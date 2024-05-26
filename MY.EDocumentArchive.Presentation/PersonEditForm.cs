@@ -19,7 +19,7 @@ namespace MY.EDocumentArchive.Presentation
 
             if (personId.HasValue)
             {
-                var person = ServiceFactory<PersonModel>.FetchByPrimaryKey(personId.Value);
+                var person = ServiceFactory<PersonModel>.FetchByPrimaryKeys(PersonModel.__PrimaryKeys.PersonID(personId.Value));
                 cmbType.SelectedValue = person.Type.Value;
                 txtFirstName.Text = person.FirstName;
                 txtLastName.Text = person.LastName;
@@ -44,8 +44,17 @@ namespace MY.EDocumentArchive.Presentation
                 person.Name = txtName.Text;
             person.NationalID = txtNationalID.Text;
 
-            if (FormValidator.IsValid(this) && ServiceFactory<PersonModel>.Save(ref person))
-                DialogResult = DialogResult.OK;
+            if (FormValidator.IsValid(this))
+            {
+                bool success;
+                if (personId.HasValue)
+                    success = ServiceFactory<PersonModel>.Update(person);
+                else
+                    success = ServiceFactory<PersonModel>.Insert(ref person);
+
+                if (success)
+                    DialogResult = DialogResult.OK;
+            }
         }
 
         private void cmbType_SelectedIndexChanged(object sender, EventArgs e)

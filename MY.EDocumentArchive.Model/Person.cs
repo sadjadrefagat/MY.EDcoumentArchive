@@ -1,6 +1,6 @@
 ﻿namespace MY.EDocumentArchive.Model
 {
-    public class Person : BaseEntity
+    public partial class Person : BaseEntity
     {
         public Person()
             : base("General", "Person")
@@ -9,6 +9,7 @@
 
         [NoInsert]
         [PrimaryKey]
+        [AutoIdentity]
         public long PersonID { get; set; }
 
         public int Type { get; set; }

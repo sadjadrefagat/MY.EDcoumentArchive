@@ -8,6 +8,16 @@ namespace MY.EDocumentArchive.BusinessLogic.Model
         {
         }
 
-        public new PersonType Type { get; set; }
+        public new PersonType Type
+        {
+            get
+            {
+                return PersonType.GetByValue(base.Type);
+            }
+            set
+            {
+                base.Type = value.Value;
+            }
+        }
     }
 }

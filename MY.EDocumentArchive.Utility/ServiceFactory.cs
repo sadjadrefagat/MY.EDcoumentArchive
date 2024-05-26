@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -7,10 +6,8 @@ namespace MY
 {
     sealed public class ServiceFactory<T> where T : BaseEntity
     {
-
-        public static T FetchByPrimaryKey(object primaryKeyValue)
+        static public T FetchByPrimaryKeys(params NameAndValue[] primaryKeysAndValues)
         {
-
             var typeDescriptor = new EntityTypeDescriptor<T>();
 
             var obj = Activator.CreateInstance<T>();
@@ -24,15 +21,29 @@ namespace MY
                     selectList += ", ";
                 selectList += $"[{field}]";
             }
-            var primaryKey = typeDescriptor.GetPrimaryKeyProperty();
-            var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE ([{primaryKey}] = @PrimaryKey)";
+            var primaryKeys = typeDescriptor.GetPrimaryKeys();
+            var whereClause = "";
+            foreach (var primaryKey in primaryKeys)
+            {
+                if (!string.IsNullOrEmpty(whereClause))
+                    whereClause += " AND ";
+                whereClause += $"[{primaryKey.Key}] = @{primaryKey.Key}";
+            }
 
-            using (var connection = new SqlConnection("server=192.168.1.54; initial catalog=MY.EDocumentArchive; user id=sa; password=Admin+1000"))
+            var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE ({whereClause})";
+
+            using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
             {
                 connection.Open();
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@PrimaryKey", primaryKeyValue);
+                    foreach (var primaryKey in primaryKeys)
+                    {
+                        var value = primaryKeysAndValues.Where(pk => pk.Name == primaryKey.Key).FirstOrDefault();
+                        if (value != null)
+                            command.Parameters.AddWithValue($"@{primaryKey.Key}", value.Value);
+                    }
+
                     var reader = command.ExecuteReader();
                     if (reader.HasRows)
                     {
@@ -46,22 +57,40 @@ namespace MY
             return obj;
         }
 
-        static public bool Save(ref T obj)
+        static public bool Insert(ref T obj)
         {
             try
             {
                 if (obj == null)
                     throw new Exception("خطای رفرنس به نال");
                 var typeDescriptor = new EntityTypeDescriptor<T>();
-                var primaryKey = typeDescriptor.GetPrimaryKeyProperty();
-                if (string.IsNullOrEmpty(primaryKey))
-                    throw new Exception($"کلید اصلی برای موجودیت «{typeDescriptor.Name}» تعریف نشده است.");
-                var primaryKeyValue = typeDescriptor.GetValue<long>(obj, primaryKey);
+                var primaryKeys = typeDescriptor.GetPrimaryKeys();
 
-                if (primaryKeyValue == 0L)
-                    Insert(ref obj, typeDescriptor);
-                else
-                    Update(obj, typeDescriptor);
+                if (primaryKeys.Count == 0)
+                    throw new Exception($"کلید اصلی برای موجودیت «{typeDescriptor.Name}» تعریف نشده است.");
+
+                Insert(ref obj, typeDescriptor);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+            return true;
+        }
+
+        static public bool Update(T obj)
+        {
+            try
+            {
+                if (obj == null)
+                    throw new Exception("خطای رفرنس به نال");
+                var typeDescriptor = new EntityTypeDescriptor<T>();
+                var primaryKeys = typeDescriptor.GetPrimaryKeys();
+
+                if (primaryKeys.Count == 0)
+                    throw new Exception($"کلید اصلی برای موجودیت «{typeDescriptor.Name}» تعریف نشده است.");
+
+                Update(obj, typeDescriptor);
             }
             catch (Exception ex)
             {
@@ -88,7 +117,7 @@ namespace MY
 
             var query = $"INSERT INTO [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] ({fieldNames}) VALUES ({paramNames}); SELECT CAST(SCOPE_IDENTITY() AS BIGINT);";
 
-            using (var connection = new SqlConnection("server=192.168.1.54; initial catalog=MY.EDocumentArchive; user id=sa; password=Admin+1000"))
+            using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
             {
                 connection.Open();
                 using (var command = new SqlCommand(query, connection))
@@ -96,8 +125,9 @@ namespace MY
                     foreach (var param in fields)
                         command.Parameters.AddWithValue(param, typeDescriptor.GetValue(obj, param));
                     var identityObj = command.ExecuteScalar();
-                    typeDescriptor.SetValue(obj, typeDescriptor.GetPrimaryKeyProperty(), identityObj);
-
+                    var identityProperty = typeDescriptor.GetIdentityProperty();
+                    if (!string.IsNullOrEmpty(identityProperty))
+                        typeDescriptor.SetValue(obj, identityProperty, identityObj);
                 }
                 connection.Close();
             }
@@ -114,24 +144,33 @@ namespace MY
                     updateList += ", ";
                 updateList += $"[{field}] = @{field}";
             }
-            var primaryKey = typeDescriptor.GetPrimaryKeyProperty();
-            var query = $"UPDATE [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] SET {updateList} WHERE ([{primaryKey}] = @PrimaryKey)";
+            var primaryKeys = typeDescriptor.GetPrimaryKeys();
+            var whereClause = "";
+            foreach (var primaryKey in primaryKeys)
+            {
+                if (!string.IsNullOrEmpty(whereClause))
+                    whereClause += " AND ";
+                whereClause += $"[{primaryKey.Key}] = @{primaryKey.Key}";
+            }
 
-            using (var connection = new SqlConnection("server=192.168.1.54; initial catalog=MY.EDocumentArchive; user id=sa; password=Admin+1000"))
+            var query = $"UPDATE [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] SET {updateList} WHERE ({whereClause})";
+
+            using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
             {
                 connection.Open();
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@PrimaryKey", typeDescriptor.GetValue(obj, primaryKey));
+                    foreach (var primaryKey in primaryKeys)
+                        command.Parameters.AddWithValue($"@{primaryKey.Key}", typeDescriptor.GetValue(obj, primaryKey.Key));
+
                     foreach (var param in fields)
-                        command.Parameters.AddWithValue(param, typeDescriptor.GetValue(obj, param));
+                        if (!command.Parameters.Contains($"@{param}"))
+                            command.Parameters.AddWithValue(param, typeDescriptor.GetValue(obj, param));
                     var identityObj = command.ExecuteScalar();
 
                 }
                 connection.Close();
             }
         }
-
-
     }
 }

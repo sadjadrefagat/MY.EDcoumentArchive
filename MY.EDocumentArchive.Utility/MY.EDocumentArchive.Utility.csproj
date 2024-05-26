@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfig.cs" />
     <Compile Include="ApplicationConfig.cs" />
+    <Compile Include="AutoIdentityAttribute.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="ControlLibrary\MTextBox.cs">
       <SubType>Component</SubType>
@@ -55,6 +57,7 @@
     <Compile Include="EntityTypeDescriptor.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="EnumItem.cs" />
+    <Compile Include="NameAndValue.cs" />
     <Compile Include="FormValidator.cs" />
     <Compile Include="IValidationControl.cs" />
     <Compile Include="MapToDatabaseTableAttribute.cs" />

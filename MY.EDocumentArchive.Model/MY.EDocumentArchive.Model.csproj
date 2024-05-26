@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EEW.cs" />
+    <Compile Include="EEW.PrimaryKeys.cs" />
+    <Compile Include="Person.PrimaryKeys.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,6 +9,20 @@
 
     public class PersonType : EnumItem
     {
+        static public PersonType GetByValue(int value)
+        {
+            switch (value)
+            {
+                case 10:
+                    return شخص;
+                case 20:
+                    return شرکت;
+                case 30:
+                    return متفرقه;
+            }
+            return null;
+        }
+
         static public PersonType شخص = new PersonType()
         {
             Value = 10,
