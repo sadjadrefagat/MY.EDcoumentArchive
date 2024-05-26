@@ -56,6 +56,11 @@ namespace MY.EDocumentArchive.Presentation
             //ServiceFactory<EEWModel>.Update(eew);
             #endregion
 
+
+            ServiceFactory<PersonModel>.DeleteByPrimaryKeys(PersonModel.__PrimaryKeys.PersonID(8));
+
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new PersonEditForm(15));

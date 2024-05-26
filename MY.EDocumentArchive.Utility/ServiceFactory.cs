@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MY;
+using System;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -168,6 +170,41 @@ namespace MY
                             command.Parameters.AddWithValue(param, typeDescriptor.GetValue(obj, param));
                     var identityObj = command.ExecuteScalar();
 
+                }
+                connection.Close();
+            }
+        }
+
+        //////////////////////////////////////////////////
+        static public void DeleteByPrimaryKeys(params NameAndValue[] primaryKeysAndValues)
+        {
+
+            var typeDescriptor = new EntityTypeDescriptor<T>();
+            var primaryKeys = typeDescriptor.GetPrimaryKeys();
+            var whereClause = "";
+            var obj = Activator.CreateInstance<T>();
+            foreach (var primaryKey in primaryKeys)
+            {
+                if (!string.IsNullOrEmpty(whereClause))
+                    whereClause += " AND ";
+                whereClause += $"[{primaryKey.Key}] = @{primaryKey.Key}";
+            }
+
+            var query = $"DELETE FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE ({whereClause})";
+
+            using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    foreach (var primaryKey in primaryKeys)
+                    {
+                        var value = primaryKeysAndValues.Where(pk => pk.Name == primaryKey.Key).FirstOrDefault();
+                        if (value != null)
+                            command.Parameters.AddWithValue($"@{primaryKey.Key}", value.Value);
+                    }
+
+                    command.ExecuteNonQuery();
                 }
                 connection.Close();
             }
