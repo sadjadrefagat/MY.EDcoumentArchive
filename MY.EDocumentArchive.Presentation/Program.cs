@@ -1,4 +1,5 @@
-﻿using MY.EDocumentArchive.BusinessLogic.Model;
+﻿using MY.EDocumentArchive.BusinessLogic;
+using MY.EDocumentArchive.BusinessLogic.Model;
 using System;
 using System.Windows.Forms;
 
@@ -6,6 +7,12 @@ namespace MY.EDocumentArchive.Presentation
 {
     internal static class Program
     {
+        static private string NationalCodeControlBit(string nationalID)
+        {
+            return "";
+        }
+
+
         [STAThread]
         static void Main()
         {
@@ -34,6 +41,54 @@ namespace MY.EDocumentArchive.Presentation
                 AutoCommitTransactions = true,
             };
 
+            //var ps = ServiceFactory<PersonModel>.FetchByFilter(p =>
+            //    Convert.IsDBNull(p.Name) &&
+            //    p.FirstName == p.LastName &&
+            //    (
+            //        Convert.ToInt64(p.NationalID) % 2 != 0 ||
+            //        p.NationalID.Length == 9
+            //    ) &&
+            //    p.Type == PersonType.شرکت);
+
+            var ps2 = new ServiceFactory<PersonModel>().
+                //.Name.IsDbNull()
+                //.And()
+                //.FirstName.Equals().LastName
+                //.And()
+                //.Begin()
+                //    .NationalID.ToInt64().Mode(2).NotEquals().Const<int>(0)
+                //    .Or()
+                //    .NationalID.Length().Equals().Const<int>(9)
+                //.End()
+                //.Type.Equals().Enum<PersonType>().شخص;
+
+
+            //var ps = ServiceFactory<PersonModel>.FetchByFilter(p =>
+            //    Convert.IsDBNull(p.Name) &&
+            //    p.FirstName == p.LastName &&
+            //    Convert.ToInt64(p.NationalID) % 2 != 0 &&
+            //    p.NationalID.Length == 9
+            //    p.Type == PersonType.شرکت);
+
+
+            //var ps2 = ServiceFactory<PersonModel>.FetchByFilter()
+            //        .Name.IsDbNull()
+            //        .And()
+            //        .FirstName.Equals().LastName
+            //        .And()
+            //        .NationalID.ToInt64().Mode(2).NotEquals().Const<int>(0)
+            //        .And()
+            //        .NationalID.Length().Equals().Const<int>(9)
+            //        .Type.Equals().Enum<PersonType>().شخص;
+
+
+            //var ps3 = ServiceFactory<PersonModel>.FetchByFilter(p => p.Type == PersonType.شرکت);
+
+            //var ps4 = ServiceFactory<PersonModel>.FetchByFilter().Type.Equals(PersonType.شرکت);
+
+
+            //ServiceFactory<PersonModel>.FetchByFilter(Equal(PersonModel.__Fields.Type, PersonType.شخص).And(StartWith(PersonModel.__Fields.Name, "س")));
+
             #region Test
             //var fs = new FormStructure
             //{
@@ -55,11 +110,6 @@ namespace MY.EDocumentArchive.Presentation
             //eew.Name = "سجاد رفاقت";
             //ServiceFactory<EEWModel>.Update(eew);
             #endregion
-
-
-            ServiceFactory<PersonModel>.DeleteByPrimaryKeys(PersonModel.__PrimaryKeys.PersonID(8));
-
-
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

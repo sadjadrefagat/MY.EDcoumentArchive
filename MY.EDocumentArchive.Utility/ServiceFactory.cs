@@ -1,8 +1,7 @@
-﻿using MY;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
+using static MY.ConditionalExpressionClass;
 
 namespace MY
 {
@@ -29,10 +28,10 @@ namespace MY
             {
                 if (!string.IsNullOrEmpty(whereClause))
                     whereClause += " AND ";
-                whereClause += $"[{primaryKey.Key}] = @{primaryKey.Key}";
+                whereClause += $"([{primaryKey.Key}] = @{primaryKey.Key})";
             }
 
-            var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE ({whereClause})";
+            var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE {whereClause}";
 
             using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
             {
@@ -57,6 +56,107 @@ namespace MY
                 connection.Close();
             }
             return obj;
+        }
+
+        //static public List<T> FetchByFilter(params NameAndValue[] primaryKeysAndValues)
+        //{
+        //    var typeDescriptor = new EntityTypeDescriptor<T>();
+
+        //    var obj = Activator.CreateInstance<T>();
+
+        //    var fields = typeDescriptor.GetFields().ToArray();
+
+        //    var selectList = "";
+        //    foreach (var field in fields)
+        //    {
+        //        if (!string.IsNullOrEmpty(selectList))
+        //            selectList += ", ";
+        //        selectList += $"[{field}]";
+        //    }
+        //    var primaryKeys = typeDescriptor.GetPrimaryKeys();
+        //    var whereClause = "";
+        //    foreach (var primaryKey in primaryKeys)
+        //    {
+        //        if (!string.IsNullOrEmpty(whereClause))
+        //            whereClause += " AND ";
+        //        whereClause += $"([{primaryKey.Key}] = @{primaryKey.Key})";
+        //    }
+
+        //    var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE {whereClause}";
+
+        //    using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
+        //    {
+        //        connection.Open();
+        //        using (var command = new SqlCommand(query, connection))
+        //        {
+        //            foreach (var primaryKey in primaryKeys)
+        //            {
+        //                var value = primaryKeysAndValues.Where(pk => pk.Name == primaryKey.Key).FirstOrDefault();
+        //                if (value != null)
+        //                    command.Parameters.AddWithValue($"@{primaryKey.Key}", value.Value);
+        //            }
+
+        //            var reader = command.ExecuteReader();
+        //            if (reader.HasRows)
+        //            {
+        //                reader.Read();
+        //                foreach (var field in fields)
+        //                    typeDescriptor.SetValue(obj, field, reader[field]);
+        //            }
+        //        }
+        //        connection.Close();
+        //    }
+        //    return null;
+        //}
+
+        static public ConditionalExpression FetchByFilter()
+        {
+            var a = new[]
+            {
+                new
+                {
+                    ID = 1,
+                    Name = "Ali",
+                }
+            };
+
+            //predicate.
+
+            //var whereClause = LambdaExpressionToQueryString(predicate);
+
+            //var typeDescriptor = new EntityTypeDescriptor<T>();
+
+            //var obj = Activator.CreateInstance<T>();
+
+            //var fields = typeDescriptor.GetFields().ToArray();
+
+            //var selectList = "";
+            //foreach (var field in fields)
+            //{
+            //    if (!string.IsNullOrEmpty(selectList))
+            //        selectList += ", ";
+            //    selectList += $"[{field}]";
+            //}
+
+            //var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE {whereClause}";
+
+            //using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
+            //{
+            //    connection.Open();
+            //    using (var command = new SqlCommand(query, connection))
+            //    {
+
+            //        var reader = command.ExecuteReader();
+            //        if (reader.HasRows)
+            //        {
+            //            reader.Read();
+            //            foreach (var field in fields)
+            //                typeDescriptor.SetValue(obj, field, reader[field]);
+            //        }
+            //    }
+            //    connection.Close();
+            //}
+            return null;
         }
 
         static public bool Insert(ref T obj)
@@ -144,7 +244,7 @@ namespace MY
             {
                 if (!string.IsNullOrEmpty(updateList))
                     updateList += ", ";
-                updateList += $"[{field}] = @{field}";
+                updateList += $"([{field}] = @{field})";
             }
             var primaryKeys = typeDescriptor.GetPrimaryKeys();
             var whereClause = "";
@@ -155,7 +255,7 @@ namespace MY
                 whereClause += $"[{primaryKey.Key}] = @{primaryKey.Key}";
             }
 
-            var query = $"UPDATE [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] SET {updateList} WHERE ({whereClause})";
+            var query = $"UPDATE [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] SET {updateList} WHERE {whereClause}";
 
             using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
             {
@@ -175,10 +275,8 @@ namespace MY
             }
         }
 
-        //////////////////////////////////////////////////
         static public void DeleteByPrimaryKeys(params NameAndValue[] primaryKeysAndValues)
         {
-
             var typeDescriptor = new EntityTypeDescriptor<T>();
             var primaryKeys = typeDescriptor.GetPrimaryKeys();
             var whereClause = "";
@@ -187,10 +285,10 @@ namespace MY
             {
                 if (!string.IsNullOrEmpty(whereClause))
                     whereClause += " AND ";
-                whereClause += $"[{primaryKey.Key}] = @{primaryKey.Key}";
+                whereClause += $"([{primaryKey.Key}] = @{primaryKey.Key})";
             }
 
-            var query = $"DELETE FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE ({whereClause})";
+            var query = $"DELETE FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE {whereClause}";
 
             using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
             {
@@ -203,7 +301,6 @@ namespace MY
                         if (value != null)
                             command.Parameters.AddWithValue($"@{primaryKey.Key}", value.Value);
                     }
-
                     command.ExecuteNonQuery();
                 }
                 connection.Close();

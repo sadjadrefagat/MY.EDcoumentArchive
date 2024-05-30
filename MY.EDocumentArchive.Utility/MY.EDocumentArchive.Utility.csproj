@@ -9,9 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MY</RootNamespace>
     <AssemblyName>MY.EDocumentArchive.Utility</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -47,6 +51,7 @@
     <Compile Include="ApplicationConfig.cs" />
     <Compile Include="AutoIdentityAttribute.cs" />
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="ConditionalExpression.cs" />
     <Compile Include="ControlLibrary\MTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -76,6 +81,9 @@
     <EmbeddedResource Include="ControlLibrary\MTextBox.resx">
       <DependentUpon>MTextBox.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

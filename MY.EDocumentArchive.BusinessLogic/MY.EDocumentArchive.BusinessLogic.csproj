@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Model\EEWModel.cs" />
     <Compile Include="Model\PersonModel.cs" />
+    <Compile Include="Person.Filter.cs" />
     <Compile Include="PersonType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

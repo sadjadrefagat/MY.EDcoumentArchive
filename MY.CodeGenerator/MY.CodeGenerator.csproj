@@ -4,16 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C12E861-3F59-43D5-832A-EE8310A2DACC}</ProjectGuid>
+    <ProjectGuid>{8328FE7D-AA1B-407A-B7CC-28DA5CA8060C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MY.EDocumentArchive.Presentation</RootNamespace>
-    <AssemblyName>jjj</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>MY.CodeGenerator</RootNamespace>
+    <AssemblyName>MY.CodeGenerator</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,8 +33,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Janus.Data.v3">
+      <HintPath>D:\Janus 3.5\Janus.Data.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Janus.Windows.ButtonBar.v3">
+      <HintPath>..\..\..\Janus 3.5\Janus.Windows.ButtonBar.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Janus.Windows.Common.v3">
+      <HintPath>D:\Janus 3.5\Janus.Windows.Common.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Janus.Windows.GridEX.v3">
+      <HintPath>..\..\..\Janus 3.5\Janus.Windows.GridEX.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Janus.Windows.UI.v3">
+      <HintPath>..\..\..\Janus 3.5\Janus.Windows.UI.v3.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,17 +61,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormStructure.cs" />
-    <Compile Include="PersonEditForm.cs">
+    <Compile Include="GeneratorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PersonEditForm.Designer.cs">
-      <DependentUpon>PersonEditForm.cs</DependentUpon>
+    <Compile Include="GeneratorForm.Designer.cs">
+      <DependentUpon>GeneratorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModalShadow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModalShadow.Designer.cs">
+      <DependentUpon>ModalShadow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="PersonEditForm.resx">
-      <DependentUpon>PersonEditForm.cs</DependentUpon>
+    <Compile Include="Step1Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Step1Form.Designer.cs">
+      <DependentUpon>Step1Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Step2Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Step2Form.Designer.cs">
+      <DependentUpon>Step2Form.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="GeneratorForm.resx">
+      <DependentUpon>GeneratorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModalShadow.resx">
+      <DependentUpon>ModalShadow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -70,6 +102,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Step1Form.resx">
+      <DependentUpon>Step1Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Step2Form.resx">
+      <DependentUpon>Step2Form.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -84,22 +122,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MY.EDocumentArchive.BusinessLogic\MY.EDocumentArchive.BusinessLogic.csproj">
-      <Project>{bf24dfd9-7dc7-410b-9997-2c351ab6ce29}</Project>
-      <Name>MY.EDocumentArchive.BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MY.EDocumentArchive.Model\MY.EDocumentArchive.Model.csproj">
-      <Project>{6767b5cd-6a81-4723-93fe-c655283bb118}</Project>
-      <Name>MY.EDocumentArchive.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MY.EDocumentArchive.Utility\MY.EDocumentArchive.Utility.csproj">
       <Project>{e112f006-882f-4b95-ab40-3e654c90669f}</Project>
       <Name>MY.EDocumentArchive.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>
