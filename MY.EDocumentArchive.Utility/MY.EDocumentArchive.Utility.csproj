@@ -59,9 +59,11 @@
       <DependentUpon>MTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomValidationEventHandler.cs" />
+    <Compile Include="DatabaseErrorTranslator.cs" />
     <Compile Include="EntityTypeDescriptor.cs" />
-    <Compile Include="EnumHelper.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="EnumItem.cs" />
+    <Compile Include="LambdaExpressionVisitor.cs" />
     <Compile Include="NameAndValue.cs" />
     <Compile Include="FormValidator.cs" />
     <Compile Include="IValidationControl.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="ServerAuthenticate.cs" />
     <Compile Include="ServiceFactory.cs" />
     <Compile Include="ServiceFactoryConfig.cs" />
+    <Compile Include="ServiceTransaction.cs" />
     <Compile Include="SqlServerDatabaseConnection.cs" />
     <Compile Include="TableMappingInfo.cs" />
   </ItemGroup>

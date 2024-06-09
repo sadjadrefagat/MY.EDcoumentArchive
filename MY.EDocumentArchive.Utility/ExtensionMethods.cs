@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace MY
 {
-    static public class EnumHelper
+    static public class ExtensionMethods
     {
         static public void FillByEnum<T>(this ComboBox comboBox) where T : EnumItem
         {
@@ -16,6 +16,13 @@ namespace MY
             comboBox.DisplayMember = "Text";
             comboBox.ValueMember = "Value";
             comboBox.DataSource = list;
+        }
+
+        static public string Combine(this List<string> stringList, string separator = "\n")
+        {
+            if (stringList == null)
+                return string.Empty;
+            return string.Join(separator, stringList.ToArray());
         }
     }
 }

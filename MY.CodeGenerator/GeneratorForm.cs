@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MY.CodeGenerator
@@ -7,29 +9,41 @@ namespace MY.CodeGenerator
     public partial class GeneratorForm : Form
     {
         private int currentStep;
-        private IDictionary<string, Control> stepForms;
+        private IDictionary<string, StepForm> stepForms;
+        private Point mouseDownLocation, initialLocation;
+        private bool mouseIsDown = false;
+        private string connectionString = null;
+        private bool setConnectionString = false;
 
         public GeneratorForm()
         {
             InitializeComponent();
-            stepForms = new Dictionary<string, Control>();
+            stepForms = new Dictionary<string, StepForm>();
             currentStep = 1;
-            LoadStep(currentStep);
+            LoadCurrentStep();
         }
 
-        private void LoadStep(int step)
+        private void LoadCurrentStep()
         {
-            if (!stepForms.ContainsKey(step.ToString()))
+            if (!stepForms.ContainsKey($"{currentStep}"))
             {
-                var form = (Form)Activator.CreateInstance(Type.GetType($"MY.CodeGenerator.Step{step}Form"));
-                stepForms[step.ToString()] = form.Controls[0];
+                var form = (Form)Activator.CreateInstance(Type.GetType($"MY.CodeGenerator.Step{currentStep}Form"));
+                stepForms[currentStep.ToString()] = new StepForm(form as IMessageSupport, form.Controls[0]);
             }
-
-            var control = stepForms[step.ToString()];
+            var control = stepForms[currentStep.ToString()].Control;
+            if (currentStep == 2)
+                stepForms[currentStep.ToString()].Form.Message("SetConnectionString", connectionString, out string _);
             pnlStepsArea.Controls.Clear();
             control.Dock = DockStyle.Fill;
-            panel15.Controls.Add(control);
+            pnlStepsArea.Controls.Add(control);
             control.BringToFront();
+            var menu = pnlMenu.Controls[$"menuStep{currentStep}"] as Label;
+            foreach (Control item in pnlMenu.Controls)
+                if (item.Name != lblStatus.Name)
+                    item.BackColor = Color.Transparent;
+            menu.BackColor = Color.FromArgb(31, 43, 55);
+            lblTitle.Text = menu.Text;
+            btnTestConnection.Visible = currentStep == 1;
         }
 
         private ModalShadow ShowModalShadow()
@@ -43,12 +57,11 @@ namespace MY.CodeGenerator
             return shadow;
         }
 
-        private DialogResult ShowDialogBox(string message)
+        private void ShowDialogBox(string message, bool error = false)
         {
             var shadow = ShowModalShadow();
-            var result = MessageBox.Show(message);
+            new MessageBoxForm(message, error).ShowDialog();
             shadow.Close();
-            return result;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -58,43 +71,11 @@ namespace MY.CodeGenerator
 
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    var serverAddress = "";
-            //    var portNumber = 1433;
-            //    if (txtServerAddress.Text.Contains(","))
-            //    {
-            //        var parts = txtServerAddress.Text.Split(',');
-            //        serverAddress = parts[0].Trim();
-            //        portNumber = int.Parse(parts[1].Trim());
-            //    }
-            //    var appConfig = new ApplicationConfig()
-            //    {
-            //        DatabaseConnection = new SqlServerDatabaseConnection()
-            //        {
-            //            ServerAddress = serverAddress,
-            //            Login = new ServerAuthenticate()
-            //            {
-            //                Username = txtUserName.Text.Trim(),
-            //                Password = txtPassword.Text,
-            //            },
-            //            DatabaseName = txtDatabaseName.Text.Trim(),
-            //            Port = portNumber,
-            //        },
-            //    };
-            //    using (var connection = new SqlConnection(appConfig.DatabaseConnection.ToString()))
-            //    {
-            //        connection.Open();
-            //        using (var command = new SqlCommand("SELECT 1", connection))
-            //            command.ExecuteNonQuery();
-            //        connection.Close();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ShowDialogBox(ex.Message);
-            //    //throw;
-            //}
+            var result = stepForms["1"].Form.Message("TestConnection", null, out string outputMessage);
+            if (!result || !setConnectionString)
+                ShowDialogBox(outputMessage, error: !result);
+            if (result)
+                stepForms["1"].Form.Message("SetConnectionString", null, out connectionString);
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)
@@ -104,11 +85,20 @@ namespace MY.CodeGenerator
 
         private void btnNextStep_Click(object sender, EventArgs e)
         {
-            currentStep++;
-            if (currentStep > 7)
-                currentStep = 7;
+            if (currentStep == 1 && string.IsNullOrEmpty(connectionString))
+            {
+                setConnectionString = true;
+                btnTestConnection_Click(btnTestConnection, EventArgs.Empty);
+                setConnectionString = false;
+            }
             else
-                LoadStep(currentStep);
+            {
+                currentStep++;
+                if (currentStep > 7)
+                    currentStep = 7;
+                else
+                    LoadCurrentStep();
+            }
         }
 
         private void btnPrevStep_Click(object sender, EventArgs e)
@@ -117,7 +107,38 @@ namespace MY.CodeGenerator
             if (currentStep < 1)
                 currentStep = 1;
             else
-                LoadStep(currentStep);
+                LoadCurrentStep();
+        }
+
+        private void gotoStep(object sender, EventArgs e)
+        {
+            currentStep = int.Parse((sender as Control).Name.Replace("menuStep", ""));
+            LoadCurrentStep();
+        }
+
+        private void lblTitle_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseIsDown = true;
+                mouseDownLocation = PointToScreen(e.Location);
+                initialLocation = Location;
+            }
+        }
+
+        private void lblTitle_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseIsDown = false;
+        }
+
+        private void lblTitle_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseIsDown)
+            {
+                var screenLocation = PointToScreen(e.Location);
+                Left = initialLocation.X + screenLocation.X - mouseDownLocation.X;
+                Top = initialLocation.Y + screenLocation.Y - mouseDownLocation.Y;
+            }
         }
     }
 }

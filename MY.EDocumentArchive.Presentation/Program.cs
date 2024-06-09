@@ -1,21 +1,23 @@
 ﻿using MY.EDocumentArchive.BusinessLogic;
 using MY.EDocumentArchive.BusinessLogic.Model;
 using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MY.EDocumentArchive.Presentation
 {
     internal static class Program
     {
-        static private string NationalCodeControlBit(string nationalID)
+        static private void ShowError(string errorMessage)
         {
-            return "";
+            MessageBox.Show(errorMessage);
         }
-
 
         [STAThread]
         static void Main()
         {
+
             var appConfig = new ApplicationConfig()
             {
                 DatabaseConnection = new SqlServerDatabaseConnection()
@@ -40,7 +42,9 @@ namespace MY.EDocumentArchive.Presentation
             {
                 AutoCommitTransactions = true,
             };
+            AppConfig.ShowErrorMessage = ShowError;
 
+            #region Test
             //var ps = ServiceFactory<PersonModel>.FetchByFilter(p =>
             //    Convert.IsDBNull(p.Name) &&
             //    p.FirstName == p.LastName &&
@@ -49,18 +53,34 @@ namespace MY.EDocumentArchive.Presentation
             //        p.NationalID.Length == 9
             //    ) &&
             //    p.Type == PersonType.شرکت);
+            //var p1 = ServiceFactory<PersonModel>.FetchByFilter(p => p.Length * 4 == 3);
 
-            var ps2 = new ServiceFactory<PersonModel>().
-                //.Name.IsDbNull()
-                //.And()
-                //.FirstName.Equals().LastName
-                //.And()
-                //.Begin()
-                //    .NationalID.ToInt64().Mode(2).NotEquals().Const<int>(0)
-                //    .Or()
-                //    .NationalID.Length().Equals().Const<int>(9)
-                //.End()
-                //.Type.Equals().Enum<PersonType>().شخص;
+            //var pt = Activator.CreateInstance(type);
+
+            //var i = 0;
+            //var ps2 = ServiceFactory<PersonModel>.FetchByFilter(p =>
+            //Convert.IsDBNull(p.Name) &&
+            //(
+            //    p.FirstName == p.LastName ||
+            //    p.Name.Contains(")") ||
+            //    p.Name.Contains(string.Format("{0} {1} ({0})", p.FirstName, p.LastName + p.NationalID)) ||
+            //    p.Name.Contains($"ID={p.FirstName}\"5\"") ||
+            //    Convert.ToInt64(p.NationalID) % 2 != 30 * 500
+            //) &&
+            //p.Length * 4 == 3 &&
+            //"abcde".Length == 5 &&
+            //p.NationalID.Length == 9 &&
+            //p.Type == PersonType.شرکت);
+            //.Name.IsDbNull()
+            //.And()
+            //.FirstName.Equals().LastName
+            //.And()
+            //.Begin()
+            //    .NationalID.ToInt64().Mode(2).NotEquals().Const<int>(0)
+            //    .Or()
+            //    .NationalID.Length().Equals().Const<int>(9)
+            //.End()
+            //.Type.Equals().Enum<PersonType>().شخص;
 
 
             //var ps = ServiceFactory<PersonModel>.FetchByFilter(p =>
@@ -89,13 +109,33 @@ namespace MY.EDocumentArchive.Presentation
 
             //ServiceFactory<PersonModel>.FetchByFilter(Equal(PersonModel.__Fields.Type, PersonType.شخص).And(StartWith(PersonModel.__Fields.Name, "س")));
 
-            #region Test
-            //var fs = new FormStructure
+            //var fs1 = new FormStructureModel
             //{
-            //    Type = 10,
-            //    Title = "یبلیبلی",
-            //    Description = "222222222"
+            //    Type = FormStructureType.پرونده_مشتری,
+            //    Title = "تست 3",
+            //    Description = "333"
             //};
+
+            //var fs2 = new FormStructureModel
+            //{
+            //    Type = FormStructureType.سند,
+            //    Title = "تست 3",
+            //    Description = "4444"
+            //};
+
+            //var tran = ServiceTransaction.CreateTransaction();
+
+            //var service = new ServiceFactory<FormStructureModel>();
+            //service.Insert(ref fs1, transaction: tran);
+
+            //if (!tran.HasError)
+            //    service.Insert(ref fs2, transaction: tran);
+
+            //tran.Finish();
+
+            //if (tran.HasError)
+            //    ShowError(tran.GetErrorMessages().Combine());
+
             //ServiceFactory<FormStructure>.Save(ref fs);
 
             //var eew = new EEWModel
@@ -113,6 +153,14 @@ namespace MY.EDocumentArchive.Presentation
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            var culture = CultureInfo.CreateSpecificCulture("fa-IR");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            //DevExpress.XtraEditors.WindowsFormsSettings.PreferredDateTimeCulture = DevExpress.XtraEditors.DateTimeCulture.CurrentCulture;
+
             Application.Run(new PersonEditForm(15));
         }
     }

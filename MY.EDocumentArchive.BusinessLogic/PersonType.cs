@@ -1,13 +1,6 @@
 ﻿namespace MY.EDocumentArchive.BusinessLogic
 {
-    //public enum PersonType
-    //{
-    //    شخص = 10,
-    //    شرکت = 20,
-    //    متفرقه = 30,
-    //}
-
-    public class PersonType : EnumItem
+    sealed public class PersonType : EnumItem
     {
         static public PersonType GetByValue(int value)
         {

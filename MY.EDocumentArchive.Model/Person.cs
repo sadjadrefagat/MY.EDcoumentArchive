@@ -14,6 +14,8 @@
 
         public int Type { get; set; }
 
+        public int Length { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

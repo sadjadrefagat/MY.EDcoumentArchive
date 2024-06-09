@@ -34,21 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Janus.Data.v3">
-      <HintPath>D:\Janus 3.5\Janus.Data.v3.dll</HintPath>
-    </Reference>
-    <Reference Include="Janus.Windows.ButtonBar.v3">
-      <HintPath>..\..\..\Janus 3.5\Janus.Windows.ButtonBar.v3.dll</HintPath>
-    </Reference>
-    <Reference Include="Janus.Windows.Common.v3">
-      <HintPath>D:\Janus 3.5\Janus.Windows.Common.v3.dll</HintPath>
-    </Reference>
-    <Reference Include="Janus.Windows.GridEX.v3">
-      <HintPath>..\..\..\Janus 3.5\Janus.Windows.GridEX.v3.dll</HintPath>
-    </Reference>
-    <Reference Include="Janus.Windows.UI.v3">
-      <HintPath>..\..\..\Janus 3.5\Janus.Windows.UI.v3.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,6 +52,13 @@
     </Compile>
     <Compile Include="GeneratorForm.Designer.cs">
       <DependentUpon>GeneratorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMessageSupport.cs" />
+    <Compile Include="MessageBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageBoxForm.Designer.cs">
+      <DependentUpon>MessageBoxForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ModalShadow.cs">
       <SubType>Form</SubType>
@@ -88,8 +80,12 @@
     <Compile Include="Step2Form.Designer.cs">
       <DependentUpon>Step2Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="StepForm.cs" />
     <EmbeddedResource Include="GeneratorForm.resx">
       <DependentUpon>GeneratorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageBoxForm.resx">
+      <DependentUpon>MessageBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModalShadow.resx">
       <DependentUpon>ModalShadow.cs</DependentUpon>

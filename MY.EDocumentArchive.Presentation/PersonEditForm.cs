@@ -1,6 +1,9 @@
-﻿using MY.EDocumentArchive.BusinessLogic;
+﻿using DevExpress.XtraEditors;
+using MY.EDocumentArchive.BusinessLogic;
 using MY.EDocumentArchive.BusinessLogic.Model;
 using System;
+using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MY.EDocumentArchive.Presentation
@@ -8,10 +11,22 @@ namespace MY.EDocumentArchive.Presentation
     public partial class PersonEditForm : Form
     {
         private long? personId;
+        private PersianCalendar persia = new PersianCalendar();
 
         public PersonEditForm(long? personId = null)
         {
             InitializeComponent();
+
+            var persianCulture = new CultureInfo("fa-IR");
+
+
+
+
+            calendarControl1.DateFormat = persianCulture.DateTimeFormat;
+
+
+
+
             this.personId = personId;
 
             cmbType.FillByEnum<PersonType>();
@@ -30,6 +45,8 @@ namespace MY.EDocumentArchive.Presentation
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+
+
             var person = new PersonModel();
             if (personId.HasValue)
                 person.PersonID = personId.Value;
@@ -52,6 +69,7 @@ namespace MY.EDocumentArchive.Presentation
                 else
                     success = ServiceFactory<PersonModel>.Insert(ref person);
 
+                propertyGridControl1.SelectedObject = person;
                 if (success)
                     DialogResult = DialogResult.OK;
             }
@@ -105,6 +123,39 @@ namespace MY.EDocumentArchive.Presentation
                 txtFullName.Text = $"{txtFirstName.Text} {txtLastName.Text}";
             else
                 txtFullName.Text = txtName.Text;
+        }
+
+        private void dropDownButton1_Click(object sender, EventArgs e)
+        {
+            //cameraControl1.Capture = true;
+        }
+
+        private void DrawPersianDay()
+        {
+        }
+
+        private void calendarControl1_CustomDrawDayNumberCell(object sender, DevExpress.XtraEditors.Calendar.CustomDrawDayNumberCellEventArgs e)
+        {
+            e.Handled = true;
+
+
+            Pen p = e.Cache.GetPen(Color.Violet);
+            e.Cache.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            e.Cache.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            e.Cache.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            var persianDayNumber = persia.GetDayOfMonth(e.Date);
+            var format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+            if (e.Selected)
+                e.Cache.FillRectangle(Brushes.Blue, e.Bounds);
+
+            if (e.State == DevExpress.Utils.Drawing.ObjectState.Hot)
+                e.Cache.DrawRectangle(new Pen(Color.Gray), e.Bounds);
+            e.Cache.DrawString($"{persianDayNumber}", Font, Brushes.Gray, e.Bounds, format);
+
+            //var persianDayNumber = e.Date.Day;
+            //MessageBox.Show($"{persianDayNumber}");
         }
     }
 }

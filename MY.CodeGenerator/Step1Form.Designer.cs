@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             this.pnlStep = new System.Windows.Forms.Panel();
-            this.btnSelectIcon = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.btnSelectIcon = new System.Windows.Forms.Label();
+            this.txtServerAddress = new System.Windows.Forms.TextBox();
+            this.txtProjectDescription = new System.Windows.Forms.TextBox();
+            this.txtProjectName = new System.Windows.Forms.TextBox();
+            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.picIcon = new System.Windows.Forms.PictureBox();
             this.btnSelectRootDirectory = new System.Windows.Forms.Label();
-            this.txtServerAddress = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -41,13 +44,10 @@
             this.label21 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtProjectDescription = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtProjectName = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.txtRootPath = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -69,10 +69,12 @@
             // pnlStep
             // 
             this.pnlStep.Controls.Add(this.btnSelectIcon);
-            this.pnlStep.Controls.Add(this.label14);
+            this.pnlStep.Controls.Add(this.txtServerAddress);
+            this.pnlStep.Controls.Add(this.txtProjectDescription);
+            this.pnlStep.Controls.Add(this.txtProjectName);
+            this.pnlStep.Controls.Add(this.txtNamespace);
             this.pnlStep.Controls.Add(this.picIcon);
             this.pnlStep.Controls.Add(this.btnSelectRootDirectory);
-            this.pnlStep.Controls.Add(this.txtServerAddress);
             this.pnlStep.Controls.Add(this.label20);
             this.pnlStep.Controls.Add(this.txtUserName);
             this.pnlStep.Controls.Add(this.label23);
@@ -80,13 +82,10 @@
             this.pnlStep.Controls.Add(this.label21);
             this.pnlStep.Controls.Add(this.txtPassword);
             this.pnlStep.Controls.Add(this.label1);
-            this.pnlStep.Controls.Add(this.txtProjectDescription);
             this.pnlStep.Controls.Add(this.label15);
-            this.pnlStep.Controls.Add(this.txtProjectName);
             this.pnlStep.Controls.Add(this.label32);
             this.pnlStep.Controls.Add(this.txtRootPath);
             this.pnlStep.Controls.Add(this.label22);
-            this.pnlStep.Controls.Add(this.txtNamespace);
             this.pnlStep.Controls.Add(this.label30);
             this.pnlStep.Controls.Add(this.label19);
             this.pnlStep.Controls.Add(this.label3);
@@ -101,11 +100,25 @@
             this.pnlStep.Controls.Add(this.label26);
             this.pnlStep.Controls.Add(this.label31);
             this.pnlStep.Controls.Add(this.label27);
+            this.pnlStep.Controls.Add(this.label14);
             this.pnlStep.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlStep.Location = new System.Drawing.Point(0, 0);
             this.pnlStep.Name = "pnlStep";
             this.pnlStep.Size = new System.Drawing.Size(800, 450);
             this.pnlStep.TabIndex = 10;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(194)))), ((int)(((byte)(77)))));
+            this.label14.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label14.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label14.Location = new System.Drawing.Point(355, 23);
+            this.label14.Name = "label14";
+            this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label14.Size = new System.Drawing.Size(229, 41);
+            this.label14.TabIndex = 5;
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnSelectIcon
             // 
@@ -121,18 +134,56 @@
             this.btnSelectIcon.Text = "...";
             this.btnSelectIcon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label14
+            // txtServerAddress
             // 
-            this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(194)))), ((int)(((byte)(77)))));
-            this.label14.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label14.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label14.Location = new System.Drawing.Point(355, 23);
-            this.label14.Name = "label14";
-            this.label14.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label14.Size = new System.Drawing.Size(229, 41);
-            this.label14.TabIndex = 5;
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtServerAddress.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtServerAddress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(78)))), ((int)(((byte)(78)))));
+            this.txtServerAddress.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtServerAddress.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.txtServerAddress.Location = new System.Drawing.Point(170, 242);
+            this.txtServerAddress.Name = "txtServerAddress";
+            this.txtServerAddress.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtServerAddress.Size = new System.Drawing.Size(409, 22);
+            this.txtServerAddress.TabIndex = 4;
+            this.txtServerAddress.Text = "192.168.1.54,1433";
+            // 
+            // txtProjectDescription
+            // 
+            this.txtProjectDescription.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtProjectDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(128)))), ((int)(((byte)(188)))));
+            this.txtProjectDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtProjectDescription.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.txtProjectDescription.Location = new System.Drawing.Point(117, 190);
+            this.txtProjectDescription.Name = "txtProjectDescription";
+            this.txtProjectDescription.Size = new System.Drawing.Size(457, 22);
+            this.txtProjectDescription.TabIndex = 3;
+            this.txtProjectDescription.Text = "پروژه تستی";
+            // 
+            // txtProjectName
+            // 
+            this.txtProjectName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtProjectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(128)))), ((int)(((byte)(188)))));
+            this.txtProjectName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtProjectName.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.txtProjectName.Location = new System.Drawing.Point(126, 138);
+            this.txtProjectName.Name = "txtProjectName";
+            this.txtProjectName.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtProjectName.Size = new System.Drawing.Size(452, 22);
+            this.txtProjectName.TabIndex = 2;
+            this.txtProjectName.Text = "Code_For_Test";
+            // 
+            // txtNamespace
+            // 
+            this.txtNamespace.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtNamespace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(128)))), ((int)(((byte)(188)))));
+            this.txtNamespace.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNamespace.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.txtNamespace.Location = new System.Drawing.Point(169, 86);
+            this.txtNamespace.Name = "txtNamespace";
+            this.txtNamespace.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtNamespace.Size = new System.Drawing.Size(409, 22);
+            this.txtNamespace.TabIndex = 1;
+            this.txtNamespace.Text = "Code_For_Test";
             // 
             // picIcon
             // 
@@ -159,19 +210,6 @@
             this.btnSelectRootDirectory.Text = "...";
             this.btnSelectRootDirectory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // txtServerAddress
-            // 
-            this.txtServerAddress.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtServerAddress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(78)))), ((int)(((byte)(78)))));
-            this.txtServerAddress.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtServerAddress.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.txtServerAddress.Location = new System.Drawing.Point(170, 242);
-            this.txtServerAddress.Name = "txtServerAddress";
-            this.txtServerAddress.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtServerAddress.Size = new System.Drawing.Size(409, 18);
-            this.txtServerAddress.TabIndex = 4;
-            this.txtServerAddress.Text = "(local),1433";
-            // 
             // label20
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -194,7 +232,7 @@
             this.txtUserName.Location = new System.Drawing.Point(169, 294);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtUserName.Size = new System.Drawing.Size(409, 18);
+            this.txtUserName.Size = new System.Drawing.Size(409, 22);
             this.txtUserName.TabIndex = 5;
             this.txtUserName.Text = "sa";
             // 
@@ -220,7 +258,7 @@
             this.txtDatabaseName.Location = new System.Drawing.Point(169, 398);
             this.txtDatabaseName.Name = "txtDatabaseName";
             this.txtDatabaseName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtDatabaseName.Size = new System.Drawing.Size(409, 18);
+            this.txtDatabaseName.Size = new System.Drawing.Size(409, 22);
             this.txtDatabaseName.TabIndex = 7;
             this.txtDatabaseName.Text = "MY.EDocumentArchive";
             // 
@@ -248,7 +286,7 @@
             this.txtPassword.Location = new System.Drawing.Point(169, 346);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtPassword.Size = new System.Drawing.Size(409, 18);
+            this.txtPassword.Size = new System.Drawing.Size(409, 22);
             this.txtPassword.TabIndex = 6;
             this.txtPassword.Text = "Admin+1000";
             this.txtPassword.UseSystemPasswordChar = true;
@@ -266,18 +304,6 @@
             this.label1.TabIndex = 5;
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtProjectDescription
-            // 
-            this.txtProjectDescription.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtProjectDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(128)))), ((int)(((byte)(188)))));
-            this.txtProjectDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtProjectDescription.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.txtProjectDescription.Location = new System.Drawing.Point(117, 190);
-            this.txtProjectDescription.Name = "txtProjectDescription";
-            this.txtProjectDescription.Size = new System.Drawing.Size(457, 18);
-            this.txtProjectDescription.TabIndex = 3;
-            this.txtProjectDescription.Text = "پروژه تستی";
-            // 
             // label15
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -290,19 +316,6 @@
             this.label15.TabIndex = 5;
             this.label15.Text = "مسیر ریشه";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtProjectName
-            // 
-            this.txtProjectName.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtProjectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(128)))), ((int)(((byte)(188)))));
-            this.txtProjectName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtProjectName.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.txtProjectName.Location = new System.Drawing.Point(126, 138);
-            this.txtProjectName.Name = "txtProjectName";
-            this.txtProjectName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtProjectName.Size = new System.Drawing.Size(452, 18);
-            this.txtProjectName.TabIndex = 2;
-            this.txtProjectName.Text = "Code_For_Test";
             // 
             // label32
             // 
@@ -326,7 +339,7 @@
             this.txtRootPath.Location = new System.Drawing.Point(356, 34);
             this.txtRootPath.Name = "txtRootPath";
             this.txtRootPath.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtRootPath.Size = new System.Drawing.Size(218, 18);
+            this.txtRootPath.Size = new System.Drawing.Size(218, 22);
             this.txtRootPath.TabIndex = 0;
             this.txtRootPath.Text = "Code_For_Test";
             // 
@@ -342,19 +355,6 @@
             this.label22.TabIndex = 5;
             this.label22.Text = "فضای نام";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtNamespace
-            // 
-            this.txtNamespace.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtNamespace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(128)))), ((int)(((byte)(188)))));
-            this.txtNamespace.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNamespace.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.txtNamespace.Location = new System.Drawing.Point(169, 86);
-            this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtNamespace.Size = new System.Drawing.Size(409, 18);
-            this.txtNamespace.TabIndex = 1;
-            this.txtNamespace.Text = "Code_For_Test";
             // 
             // label30
             // 

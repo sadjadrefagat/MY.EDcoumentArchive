@@ -1,6 +1,6 @@
-﻿namespace MY.EDocumentArchive.Presentation
+﻿namespace MY.EDocumentArchive.Model
 {
-    sealed public class FormStructure : BaseEntity
+    public partial class FormStructure : BaseEntity
     {
         public FormStructure()
             : base("Form", "FormStructure")
@@ -9,6 +9,7 @@
 
         [NoInsert]
         [PrimaryKey]
+        [AutoIdentity]
         public long FormStructureID { get; set; }
 
         public int Type { get; set; }

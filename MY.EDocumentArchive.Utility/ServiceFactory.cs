@@ -1,12 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using static MY.ConditionalExpressionClass;
+using System.Linq.Expressions;
 
 namespace MY
 {
     sealed public class ServiceFactory<T> where T : BaseEntity
     {
+        private SqlTransaction _transaction;
+
+        public ServiceFactory()
+        {
+            _transaction = null;
+        }
+
+        public ServiceFactory(ServiceTransaction transaction)
+            : this()
+        {
+            if (transaction != null)
+                _transaction = transaction.GetTransaction();
+        }
+
+        public bool Insert(ref T obj, bool forceInsert = true, ServiceTransaction transaction = null)
+        {
+            if (obj != null)
+                return Insert(ref obj, transaction);
+            return false;
+        }
+
         static public T FetchByPrimaryKeys(params NameAndValue[] primaryKeysAndValues)
         {
             var typeDescriptor = new EntityTypeDescriptor<T>();
@@ -58,108 +81,71 @@ namespace MY
             return obj;
         }
 
-        //static public List<T> FetchByFilter(params NameAndValue[] primaryKeysAndValues)
-        //{
-        //    var typeDescriptor = new EntityTypeDescriptor<T>();
-
-        //    var obj = Activator.CreateInstance<T>();
-
-        //    var fields = typeDescriptor.GetFields().ToArray();
-
-        //    var selectList = "";
-        //    foreach (var field in fields)
-        //    {
-        //        if (!string.IsNullOrEmpty(selectList))
-        //            selectList += ", ";
-        //        selectList += $"[{field}]";
-        //    }
-        //    var primaryKeys = typeDescriptor.GetPrimaryKeys();
-        //    var whereClause = "";
-        //    foreach (var primaryKey in primaryKeys)
-        //    {
-        //        if (!string.IsNullOrEmpty(whereClause))
-        //            whereClause += " AND ";
-        //        whereClause += $"([{primaryKey.Key}] = @{primaryKey.Key})";
-        //    }
-
-        //    var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE {whereClause}";
-
-        //    using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
-        //    {
-        //        connection.Open();
-        //        using (var command = new SqlCommand(query, connection))
-        //        {
-        //            foreach (var primaryKey in primaryKeys)
-        //            {
-        //                var value = primaryKeysAndValues.Where(pk => pk.Name == primaryKey.Key).FirstOrDefault();
-        //                if (value != null)
-        //                    command.Parameters.AddWithValue($"@{primaryKey.Key}", value.Value);
-        //            }
-
-        //            var reader = command.ExecuteReader();
-        //            if (reader.HasRows)
-        //            {
-        //                reader.Read();
-        //                foreach (var field in fields)
-        //                    typeDescriptor.SetValue(obj, field, reader[field]);
-        //            }
-        //        }
-        //        connection.Close();
-        //    }
-        //    return null;
-        //}
-
-        static public ConditionalExpression FetchByFilter()
+        static public IList<T> FetchAll()
         {
-            var a = new[]
-            {
-                new
-                {
-                    ID = 1,
-                    Name = "Ali",
-                }
-            };
-
-            //predicate.
-
-            //var whereClause = LambdaExpressionToQueryString(predicate);
-
-            //var typeDescriptor = new EntityTypeDescriptor<T>();
-
-            //var obj = Activator.CreateInstance<T>();
-
-            //var fields = typeDescriptor.GetFields().ToArray();
-
-            //var selectList = "";
-            //foreach (var field in fields)
-            //{
-            //    if (!string.IsNullOrEmpty(selectList))
-            //        selectList += ", ";
-            //    selectList += $"[{field}]";
-            //}
-
-            //var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] WHERE {whereClause}";
-
-            //using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
-            //{
-            //    connection.Open();
-            //    using (var command = new SqlCommand(query, connection))
-            //    {
-
-            //        var reader = command.ExecuteReader();
-            //        if (reader.HasRows)
-            //        {
-            //            reader.Read();
-            //            foreach (var field in fields)
-            //                typeDescriptor.SetValue(obj, field, reader[field]);
-            //        }
-            //    }
-            //    connection.Close();
-            //}
-            return null;
+            return FetchByFilter(null);
         }
 
-        static public bool Insert(ref T obj)
+        static public IList<T> FetchByFilter(Expression<Func<T, bool>> expression)
+        {
+            string parameterName = "[T]";
+            string whereClause;
+            var values = new Dictionary<string, object>();
+            if (expression == null)
+            {
+                whereClause = "1 = @Val1";
+                values.Add("@Val1", 1);
+            }
+            else if (expression.NodeType == ExpressionType.Lambda)
+            {
+                parameterName = expression.Parameters.First().Name;
+                var visitor = new LambdaExpressionVisitor(parameterName);
+                visitor.Visit(expression.Body);
+                whereClause = visitor.VisitString;
+                values = visitor.Values;
+            }
+            else
+                throw new Exception("Invalid Expression.");
+
+            var typeDescriptor = new EntityTypeDescriptor<T>();
+            var fields = typeDescriptor.GetFields().ToArray();
+            var selectList = "";
+            foreach (var field in fields)
+            {
+                if (!string.IsNullOrEmpty(selectList))
+                    selectList += ", ";
+                selectList += $"[{field}]";
+            }
+
+            var obj = Activator.CreateInstance<T>();
+            var result = new List<T>();
+
+            var query = $"SELECT {selectList} FROM [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] AS [{parameterName}] WHERE ({whereClause})";
+
+            using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    foreach (var value in values)
+                        command.Parameters.AddWithValue(value.Key, value.Value);
+
+                    var reader = command.ExecuteReader();
+                    while (reader.HasRows)
+                    {
+                        reader.Read();
+                        var item = Activator.CreateInstance<T>();
+                        foreach (var field in fields)
+                            typeDescriptor.SetValue(item, field, reader[field]);
+                        result.Add(item);
+                    }
+                }
+                connection.Close();
+            }
+            return result;
+        }
+
+        static public bool Insert(ref T obj, ServiceTransaction transaction = null)
         {
             try
             {
@@ -171,11 +157,21 @@ namespace MY
                 if (primaryKeys.Count == 0)
                     throw new Exception($"کلید اصلی برای موجودیت «{typeDescriptor.Name}» تعریف نشده است.");
 
-                Insert(ref obj, typeDescriptor);
+                Insert(ref obj, typeDescriptor, transaction);
+            }
+            catch (SqlException ex)
+            {
+                if (transaction != null)
+                    transaction.AddErrorMessage(DatabaseErrorTranslator.GetErrorMessage(ex));
+                else
+                    AppConfig.ShowErrorMessage(DatabaseErrorTranslator.GetErrorMessage(ex));
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                if (transaction != null)
+                    transaction.AddErrorMessage(ex.Message);
+                else
+                    AppConfig.ShowErrorMessage(ex.Message);
             }
             return true;
         }
@@ -196,12 +192,12 @@ namespace MY
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                AppConfig.ShowErrorMessage(ex.Message);
             }
             return true;
         }
 
-        static private void Insert(ref T obj, EntityTypeDescriptor<T> typeDescriptor)
+        static private void Insert(ref T obj, EntityTypeDescriptor<T> typeDescriptor, ServiceTransaction transaction = null)
         {
             var fields = typeDescriptor.GetInsertFields().ToArray();
 
@@ -219,20 +215,27 @@ namespace MY
 
             var query = $"INSERT INTO [{obj.__MappingInfo.SchemaName}].[{obj.__MappingInfo.TableName}] ({fieldNames}) VALUES ({paramNames}); SELECT CAST(SCOPE_IDENTITY() AS BIGINT);";
 
-            using (var connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString()))
+            SqlConnection connection;
+            if (transaction == null)
             {
+                connection = new SqlConnection(AppConfig.ServiceFactoryConfig.ApplicationConfig.DatabaseConnection.ToString());
                 connection.Open();
-                using (var command = new SqlCommand(query, connection))
-                {
-                    foreach (var param in fields)
-                        command.Parameters.AddWithValue(param, typeDescriptor.GetValue(obj, param));
-                    var identityObj = command.ExecuteScalar();
-                    var identityProperty = typeDescriptor.GetIdentityProperty();
-                    if (!string.IsNullOrEmpty(identityProperty))
-                        typeDescriptor.SetValue(obj, identityProperty, identityObj);
-                }
-                connection.Close();
             }
+            else
+                connection = transaction.GetConnection();
+            using (var command = new SqlCommand(query, connection))
+            {
+                if (transaction != null)
+                    command.Transaction = transaction.GetTransaction();
+                foreach (var param in fields)
+                    command.Parameters.AddWithValue(param, typeDescriptor.GetValue(obj, param));
+                var identityObj = command.ExecuteScalar();
+                var identityProperty = typeDescriptor.GetIdentityProperty();
+                if (!string.IsNullOrEmpty(identityProperty))
+                    typeDescriptor.SetValue(obj, identityProperty, identityObj);
+            }
+            if (transaction == null)
+                connection.Close();
         }
 
         static private void Update(T obj, EntityTypeDescriptor<T> typeDescriptor)
