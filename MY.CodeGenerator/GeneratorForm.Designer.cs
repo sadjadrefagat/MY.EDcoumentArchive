@@ -106,7 +106,6 @@
             this.menuStep7.TabIndex = 9;
             this.menuStep7.Text = "انتشار";
             this.menuStep7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep7.Click += new System.EventHandler(this.gotoStep);
             // 
             // menuStep6
             // 
@@ -120,7 +119,6 @@
             this.menuStep6.TabIndex = 8;
             this.menuStep6.Text = "تولید پروژه";
             this.menuStep6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep6.Click += new System.EventHandler(this.gotoStep);
             // 
             // menuStep5
             // 
@@ -134,7 +132,6 @@
             this.menuStep5.TabIndex = 7;
             this.menuStep5.Text = "پیش‌نمایش تولید";
             this.menuStep5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep5.Click += new System.EventHandler(this.gotoStep);
             // 
             // menuStep4
             // 
@@ -148,7 +145,6 @@
             this.menuStep4.TabIndex = 6;
             this.menuStep4.Text = "انتخاب پلتفرم";
             this.menuStep4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep4.Click += new System.EventHandler(this.gotoStep);
             // 
             // menuStep3
             // 
@@ -162,7 +158,6 @@
             this.menuStep3.TabIndex = 5;
             this.menuStep3.Text = "تنظیمات نگاشت";
             this.menuStep3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep3.Click += new System.EventHandler(this.gotoStep);
             // 
             // menuStep2
             // 
@@ -176,7 +171,6 @@
             this.menuStep2.TabIndex = 4;
             this.menuStep2.Text = "موجودیت‌ها";
             this.menuStep2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep2.Click += new System.EventHandler(this.gotoStep);
             // 
             // menuStep1
             // 
@@ -190,7 +184,6 @@
             this.menuStep1.TabIndex = 3;
             this.menuStep1.Text = "پیکربندی پروژه";
             this.menuStep1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.menuStep1.Click += new System.EventHandler(this.gotoStep);
             // 
             // panel4
             // 

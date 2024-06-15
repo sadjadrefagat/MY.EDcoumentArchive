@@ -11,41 +11,6 @@ namespace MY.CodeGenerator
         public Step2Form()
         {
             InitializeComponent();
-
-            var data = new DataTable();
-            data.Columns.Add("SchemaName", typeof(string));
-            data.Columns.Add("TableName", typeof(string));
-
-            data.Rows.Add(new object[] { "USR3", "AgriculturePeriod" });
-            data.Rows.Add(new object[] { "USR3", "ContractRequest" });
-            data.Rows.Add(new object[] { "SYS3", "Lookup" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-            data.Rows.Add(new object[] { "FIN3", "Voucher" });
-
-            dataGridView1.DataSource = data;
-
         }
 
         private void LoadTables()
@@ -66,6 +31,8 @@ namespace MY.CodeGenerator
                     ORDER BY
 	                    [TBL].[name]", connection))
                     table.Load(command.ExecuteReader());
+                table.Columns.Add("Selected", typeof(bool));
+                table.Columns["Selected"].ReadOnly = false;
                 connection.Close();
             }
             dataGridView1.DataSource = table;
@@ -88,6 +55,20 @@ namespace MY.CodeGenerator
                     break;
             }
             return true;
+        }
+
+        private void btnSelectAll_Click(object sender, System.EventArgs e)
+        {
+            var data = dataGridView1.DataSource as DataTable;
+            foreach (DataRow row in data.Rows)
+                row["Selected"] = true;
+        }
+
+        private void btnSelectNone_Click(object sender, System.EventArgs e)
+        {
+            var data = dataGridView1.DataSource as DataTable;
+            foreach (DataRow row in data.Rows)
+                row["Selected"] = false;
         }
     }
 }

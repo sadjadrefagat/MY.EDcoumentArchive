@@ -80,6 +80,24 @@
     <Compile Include="Step2Form.Designer.cs">
       <DependentUpon>Step2Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Step3Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Step3Form.Designer.cs">
+      <DependentUpon>Step3Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Step4Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Step4Form.Designer.cs">
+      <DependentUpon>Step4Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Step5Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Step5Form.Designer.cs">
+      <DependentUpon>Step5Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="StepForm.cs" />
     <EmbeddedResource Include="GeneratorForm.resx">
       <DependentUpon>GeneratorForm.cs</DependentUpon>
@@ -106,6 +124,15 @@
     <EmbeddedResource Include="Step2Form.resx">
       <DependentUpon>Step2Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Step3Form.resx">
+      <DependentUpon>Step3Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Step4Form.resx">
+      <DependentUpon>Step4Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Step5Form.resx">
+      <DependentUpon>Step5Form.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -120,6 +147,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MY.EDocumentArchive.Model\MY.EDocumentArchive.Model.csproj">
+      <Project>{6767B5CD-6A81-4723-93FE-C655283BB118}</Project>
+      <Name>MY.EDocumentArchive.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MY.EDocumentArchive.Utility\MY.EDocumentArchive.Utility.csproj">
       <Project>{e112f006-882f-4b95-ab40-3e654c90669f}</Project>
       <Name>MY.EDocumentArchive.Utility</Name>

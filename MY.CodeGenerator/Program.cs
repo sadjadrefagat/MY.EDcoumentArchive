@@ -12,5 +12,15 @@ namespace MY.CodeGenerator
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new GeneratorForm());
         }
+
+        static public void WaitCursor()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        static public void DefaultCursor()
+        {
+            Cursor.Current = Cursors.Default;
+        }
     }
 }

@@ -151,6 +151,8 @@ namespace MY.EDocumentArchive.Presentation
             //ServiceFactory<EEWModel>.Update(eew);
             #endregion
 
+            var fsList = ServiceFactory<FormStructureModel>.FetchAll();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

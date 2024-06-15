@@ -91,14 +91,11 @@ namespace MY.CodeGenerator
                 btnTestConnection_Click(btnTestConnection, EventArgs.Empty);
                 setConnectionString = false;
             }
+            currentStep++;
+            if (currentStep > 7)
+                currentStep = 7;
             else
-            {
-                currentStep++;
-                if (currentStep > 7)
-                    currentStep = 7;
-                else
-                    LoadCurrentStep();
-            }
+                LoadCurrentStep();
         }
 
         private void btnPrevStep_Click(object sender, EventArgs e)
@@ -108,12 +105,6 @@ namespace MY.CodeGenerator
                 currentStep = 1;
             else
                 LoadCurrentStep();
-        }
-
-        private void gotoStep(object sender, EventArgs e)
-        {
-            currentStep = int.Parse((sender as Control).Name.Replace("menuStep", ""));
-            LoadCurrentStep();
         }
 
         private void lblTitle_MouseDown(object sender, MouseEventArgs e)
